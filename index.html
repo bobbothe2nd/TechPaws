@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catonics Language Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .editor-container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        #codeArea {
+            width: 80%;
+            height: 300px;
+            margin: 20px 0;
+            padding: 10px;
+            font-size: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        #outputArea {
+            margin-top: 20px;
+        }
+
+        #output {
+            background-color: #e8e8e8;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="editor-container">
+        <h1>Catonics Programming Language Editor</h1>
+        <textarea id="codeArea" placeholder="Write your Catonics code here..."></textarea>
+        <button onclick="runCode()">Run</button>
+        <div id="outputArea">
+            <h2>Output:</h2>
+            <pre id="output"></pre>
+        </div>
+    </div>
+
+    <script>
+        // Basic syntax highlighting
+        const keywords = ['print', 'if', 'else', 'while', 'cat', 'dog']; // Example keywords for Catonics
+
+        function highlightSyntax(code) {
+            let highlightedCode = code;
+            keywords.forEach(keyword => {
+                const regex = new RegExp(`\\b${keyword}\\b`, 'g');
+                highlightedCode = highlightedCode.replace(regex, `<span class="keyword">${keyword}</span>`);
+            });
+            return highlightedCode;
+        }
+
+        function runCode() {
+            const codeArea = document.getElementById('codeArea');
+            const outputArea = document.getElementById('output');
+
+            const code = codeArea.value;
+
+            // Highlight code (simple example, real highlighting can be more complex)
+            const highlightedCode = highlightSyntax(code);
+            document.getElementById('codeArea').innerHTML = highlightedCode;
+
+            // Simple execution of code (this will only handle a few basic "Catonics" commands)
+            try {
+                const result = interpretCatonics(code); // Custom interpreter for "catonics"
+                outputArea.textContent = result;
+            } catch (error) {
+                outputArea.textContent = `Error: ${error.message}`;
+            }
+        }
+
+        // Example custom interpreter for Catonics language
+        function interpretCatonics(code) {
+            if (code.trim() === '') {
+                return 'No code to run.';
+            }
+            const lines = code.split('\n');
+            let result = '';
+
+            lines.forEach(line => {
+                if (line.startsWith('print ')) {
+                    result += line.substring(6) + '\n'; // Simple print functionality
+                } else if (line.startsWith('cat')) {
+                    result += 'Meow!\n';
+                } else if (line.startsWith('dog')) {
+                    result += 'Woof!\n';
+                } else {
+                    throw new Error('Unrecognized command');
+                }
+            });
+
+            return result;
+        }
+    </script>
+</body>
+
+</html>
