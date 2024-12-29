@@ -1,117 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catonics Language Editor</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catonics Programming Language Editor</title>
+  <style>
+      * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-        .editor-container {
-            width: 80%;
-            margin: 0 auto;
-            padding-top: 20px;
-            text-align: center;
-        }
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #2d2d2d;
+  color: #f8f8f2;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-        #codeArea {
-            width: 80%;
-            height: 300px;
-            margin: 20px 0;
-            padding: 10px;
-            font-size: 16px;
-            font-family: 'Courier New', Courier, monospace;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-        }
+.editor-container {
+  width: 80%;
+  max-width: 1000px;
+  padding: 20px;
+  background-color: #444;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
-        #outputArea {
-            margin-top: 20px;
-        }
+h1 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffcc00;
+}
 
-        #output {
-            background-color: #e8e8e8;
-            padding: 10px;
-            font-family: 'Courier New', Courier, monospace;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-    </style>
+#codeArea {
+  width: 100%;
+  height: 300px;
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #2a2a2a;
+  color: #f8f8f2;
+  border: 1px solid #555;
+  border-radius: 5px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 16px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  transition: all 0.3s ease;
+}
+
+#codeArea:focus {
+  outline: none;
+  border-color: #ffcc00;
+}
+
+.run-btn {
+  background-color: #ffcc00;
+  color: #2d2d2d;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.run-btn:hover {
+  background-color: #f1b700;
+}
+
+#outputArea {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #333;
+  border-radius: 10px;
+}
+
+#output {
+  background-color: #222;
+  padding: 15px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  color: #8e8e8e;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+  </style>
 </head>
-
 <body>
-    <div class="editor-container">
-        <h1>Catonics Programming Language Editor</h1>
-        <textarea id="codeArea" placeholder="Write your Catonics code here..."></textarea>
-        <button onclick="runCode()">Run</button>
-        <div id="outputArea">
-            <h2>Output:</h2>
-            <pre id="output"></pre>
-        </div>
+  <div class="editor-container">
+    <h1>Catonics Programming Language Editor</h1>
+    <textarea id="codeArea" placeholder="Write your Catonics code here..."></textarea>
+    <button class="run-btn" onclick="runCode()">Run Code</button>
+    <div id="outputArea">
+      <h2>Output:</h2>
+      <pre id="output"></pre>
     </div>
+  </div>
 
-    <script>
-        // Basic syntax highlighting
-        const keywords = ['print', 'if', 'else', 'while', 'cat', 'dog']; // Example keywords for Catonics
+  <script>
+      // Syntax highlighting for keywords
+const keywords = ['let', 'print', 'if', 'else', 'while', 'cat', 'dog'];
 
-        function highlightSyntax(code) {
-            let highlightedCode = code;
-            keywords.forEach(keyword => {
-                const regex = new RegExp(`\\b${keyword}\\b`, 'g');
-                highlightedCode = highlightedCode.replace(regex, `<span class="keyword">${keyword}</span>`);
-            });
-            return highlightedCode;
-        }
+function highlightSyntax(code) {
+  let highlightedCode = code;
+  keywords.forEach(keyword => {
+    const regex = new RegExp(`\\b${keyword}\\b`, 'g');
+    highlightedCode = highlightedCode.replace(regex, `<span class="keyword">${keyword}</span>`);
+  });
+  return highlightedCode;
+}
 
-        function runCode() {
-            const codeArea = document.getElementById('codeArea');
-            const outputArea = document.getElementById('output');
+function runCode() {
+  const codeArea = document.getElementById('codeArea');
+  const outputArea = document.getElementById('output');
+  
+  const code = codeArea.value;
+  const highlightedCode = highlightSyntax(code);
+  codeArea.innerHTML = highlightedCode;
 
-            const code = codeArea.value;
+  try {
+    const result = interpretCatonics(code);
+    outputArea.textContent = result;
+  } catch (error) {
+    outputArea.textContent = `Error: ${error.message}`;
+  }
+}
 
-            // Highlight code (simple example, real highlighting can be more complex)
-            const highlightedCode = highlightSyntax(code);
-            document.getElementById('codeArea').innerHTML = highlightedCode;
+// Simple interpreter for Catonics language
+function interpretCatonics(code) {
+  const lines = code.split('\n');
+  let result = '';
+  let variables = {};
 
-            // Simple execution of code (this will only handle a few basic "Catonics" commands)
-            try {
-                const result = interpretCatonics(code); // Custom interpreter for "catonics"
-                outputArea.textContent = result;
-            } catch (error) {
-                outputArea.textContent = `Error: ${error.message}`;
-            }
-        }
+  lines.forEach(line => {
+    const trimmedLine = line.trim();
+    
+    if (trimmedLine.startsWith('print')) {
+      const value = trimmedLine.slice(6).trim();
+      result += value + '\n';
+    } 
+    else if (trimmedLine.startsWith('let')) {
+      const parts = trimmedLine.slice(4).split('=');
+      const varName = parts[0].trim();
+      const varValue = parseInt(parts[1].trim());
+      variables[varName] = varValue;
+    } 
+    else if (trimmedLine.startsWith('if')) {
+      const condition = trimmedLine.slice(3, trimmedLine.indexOf('{')).trim();
+      const conditionParts = condition.split(' ');
+      const varName = conditionParts[0];
+      const operator = conditionParts[1];
+      const value = parseInt(conditionParts[2]);
 
-        // Example custom interpreter for Catonics language
-        function interpretCatonics(code) {
-            if (code.trim() === '') {
-                return 'No code to run.';
-            }
-            const lines = code.split('\n');
-            let result = '';
+      if (operator === '>' && variables[varName] > value) {
+        result += trimmedLine.slice(trimmedLine.indexOf('{') + 1, trimmedLine.indexOf('}')) + '\n';
+      } else {
+        result += 'Condition not met\n';
+      }
+    } 
+    else if (trimmedLine.startsWith('while')) {
+      const condition = trimmedLine.slice(6, trimmedLine.indexOf('{')).trim();
+      const conditionParts = condition.split(' ');
+      const varName = conditionParts[0];
+      const operator = conditionParts[1];
+      const value = parseInt(conditionParts[2]);
 
-            lines.forEach(line => {
-                if (line.startsWith('print ')) {
-                    result += line.substring(6) + '\n'; // Simple print functionality
-                } else if (line.startsWith('cat')) {
-                    result += 'Meow!\n';
-                } else if (line.startsWith('dog')) {
-                    result += 'Woof!\n';
-                } else {
-                    throw new Error('Unrecognized command');
-                }
-            });
+      while (operator === '<' && variables[varName] < value) {
+        result += 'In while loop\n';
+        variables[varName]++;
+      }
+    } 
+    else if (trimmedLine.startsWith('#')) {
+      // Ignore comments
+      return;
+    } else {
+      result += 'Unrecognized command\n';
+    }
+  });
 
-            return result;
-        }
-    </script>
+  return result;
+}
+  </script>
 </body>
-
 </html>
