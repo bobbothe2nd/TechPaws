@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>TechPaws: Gaming, Code, Cats, and Financial Growth</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Welcome to TechPaws!</h1>
+        <p>
+          <strong>Level Up Your Code, Games, and Wealth – All With a Purr!</strong>
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro">
+        <p>
+          TechPaws is your go-to place for everything related to coding,
+          finance, and cats. Whether you want to learn to code, build fun
+          cat-themed projects, or grow your wealth, we’ve got you covered – with
+          a furry twist!
+        </p>
+      </section>
+
+      <section id="what-youll-find">
+        <h2>What You’ll Find at TechPaws:</h2>
+
+        <div class="section" id="cats-coding">
+          <h3>Cats & Coding – "Code the Purrfect Program"</h3>
+          <p>Learn to code with a fun, cat-inspired twist!</p>
+          <ul>
+            <li>
+              <a href="purrScript.html" target="_blank"><strong>PurrScript:</strong> Try coding with
+              <strong>PurrScript</strong> — our unique, cat-themed coding
+              language. Example:
+              <pre><code class="language-purr">meow('Hello World!')</code></pre></a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="section" id="cats-gaming">
+          <h3>Cats & Gaming – "Paws & Play"</h3>
+          <p>For cat lovers who also love gaming!</p>
+          <ul>
+            <li>
+              <a href="catGameReviews.html" target="_blank"><strong>Cat Game Reviews:</strong> Reviews of popular cat games
+              like <em>Stray</em> and <em>Neko Atsume</em>.</a>
+            </li>
+            <li>
+              <a href="streamersWithCats.html" target="_blank"><strong>Streamers with Cats:</strong> Tips for streamers who want
+              to feature their cats in their streams.</a>
+            </li>
+            <li>
+              <a href="catInspiredSetups.html" target="_blank"><strong>Cat-Inspired Setups:</strong> Get inspired by cool
+              cat-themed gaming room ideas.</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="section" id="finance-gaming">
+          <h3>Finance & Gaming – "Level Up Your Wealth"</h3>
+          <p>Turn gaming into a way to grow your wealth!</p>
+          <ul>
+            <li>
+              <a href="investingInGaming.html" target="_blank"><strong>Investing in Gaming:</strong> Learn how to invest in
+              gaming stocks and tech companies.</a>
+            </li>
+            <li>
+              <a href="gamingCareers.html" target="_blank"><strong>Gaming Careers:</strong> Find out how gamers are making
+              money, from esports to game development.</a>
+            </li>
+            <li>
+              <a href="financialTips.html" target="_blank"><strong>Financial Tips:</strong> Simple guides on saving,
+              budgeting, and investing for gamers.</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="section" id="coding-business">
+          <h3>Coding & Business – "Code Your Way to Success"</h3>
+          <p>Use your coding skills to build a profitable business.</p>
+          <ul>
+            <li>
+              <a href="freelancingTips.html" target="_blank"><strong>Freelancing Tips:</strong> How to start a career as a
+              freelance developer.</a>
+            </li>
+            <li>
+              <a href="techStartups.html" target="_blank"><strong>Tech Startups:</strong> Learn how to launch and grow your
+              own tech or gaming business.</a>
+            </li>
+            <li>
+              <a href="businessMoneyTips.html" target="_blank"><strong>Business & Money Tips:</strong> Manage your income and
+              invest like a pro.</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="cta">
+        <button id="learn-more-btn"><span>Why TechPaws</span></button>
+      </section>
+    </main>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <span id="close-btn" class="close-btn">&times;</span>
+        <h2>About TechPaws</h2>
+        <p>
+          We combine gaming, coding, finance, and cats into a unique and
+          engaging experience. Whether you're looking to learn, make money, or
+          have fun, TechPaws is here to help you level up!
+        </p>
+        <p>
+          At TechPaws, we are dedicated
+          to bringing you the best content on gaming, coding, and financial growth,
+          all with a unique cat-inspired twist. Our highly trained expert is constantly
+          working to provide you with the latest tips, tutorials, and reviews to help
+          you level up your skills and knowledge.
+        </p>
+        <p>
+          Whether you are a beginner looking to learn the basics of coding or an
+          experienced developer seeking advanced techniques, we have something for
+          everyone. Our PurrScript coding language is designed to make learning fun
+          and engaging, with cat-themed syntax and examples that will keep you
+          entertained while you learn.
+        </p>
+        <p>
+          In addition to coding, we also cover a wide range of gaming topics, from
+          reviews of the latest cat-themed games to tips for streamers who want to
+          feature their feline friends in their streams. Our finance section provides
+          valuable insights on how to invest in gaming stocks, build a career in the
+          gaming industry, and manage your finances like a pro.
+        </p>
+        <p>
+          We believe that learning should be enjoyable and that everyone should have
+          the opportunity to grow their skills and knowledge. That's why we are
+          committed to providing high-quality content that is both informative and
+          entertaining. Thank you for being a part of the TechPaws community, and we
+          look forward to helping you achieve your goals!
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // JavaScript for modal popup interactivity
+
+      // Get modal and button elements
+      const modal = document.getElementById("modal");
+      const btn = document.getElementById("learn-more-btn");
+      const closeBtn = document.getElementById("close-btn");
+
+      // Open the modal when the button is clicked
+      btn.addEventListener("click", () => {
+        modal.style.display = "block";
+      });
+
+      // Close the modal when the user clicks on the close button (x)
+      closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+      });
+
+      // Close the modal if the user clicks outside of the modal content
+      window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
