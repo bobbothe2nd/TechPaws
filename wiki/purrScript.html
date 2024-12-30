@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="PurrScript - A friendly, kitty-inspired programming language for beginners"
+    />
+    <meta
+      name="keywords"
+      content="PurrScript, programming language, coding, learning to code"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>PurrScript Wiki - A Kitty-Inspired Programming Language</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <button class="back-to-top" onclick="scrollToTop()">↑</button>
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+
+    <header>
+      <div class="header-content">
+        <h1>PurrScript</h1>
+        <p>A Kitty-Inspired Programming Language</p>
+        <div class="header-decoration">
+          <span class="cat-emoji" title="Meow!">🐱</span>
+          <span class="code-emoji" title="Code">💻</span>
+          <span class="magic-emoji" title="Magic">✨</span>
+        </div>
+      </div>
+      <canvas id="particles"></canvas>
+    </header>
+
+    <!-- Sidebar for navigation -->
+    <div class="sidebar">
+      <h2>Contents</h2>
+      <ul>
+        <li><a href="#intro">Introduction</a></li>
+        <li><a href="#syntax">Core Syntax</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#variables">Variables & Types</a></li>
+        <li><a href="#functions">Functions</a></li>
+        <li><a href="#control-flow">Control Flow</a></li>
+        <li><a href="#loops">Loops</a></li>
+        <li><a href="#advanced">Advanced Topics</a></li>
+      </ul>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Introduction Section -->
+      <section id="intro">
+        <h2>Introduction to PurrScript</h2>
+        <p>
+          Welcome to PurrScript! This is a friendly programming language made to
+          make coding fun and easy. It's designed for beginners, so you don’t
+          need to know anything about coding to get started.
+        </p>
+        <p>
+          Instead of using complicated words like <code>v  ,,,,,"Hello"<</code> or
+          <code>KTHXBYE</code>, we use simple and cute words like
+          <code>scratch</code> and <code>meow</code>">
+          All the code looks like a fun adventure!
+        </p>
+        <p>
+          In PurrScript, we think of programming like having a conversation with
+          your catputer in a fun way. The language is easy to understand, and
+          the best part is you get to control the computer to do whatever you
+          want.
+        </p>
+      </section>
+
+      <!-- Core Syntax Section -->
+      <section id="syntax">
+        <h2>Core Syntax</h2>
+        <p>
+          The syntax of PurrScript is designed to be simple and friendly. Here’s
+          how we write code:
+        </p>
+        <ul>
+          <li>
+            <strong>scratch</strong> - Permanantly scratch something into
+            the computer’s memory. This is how we define 'functions'.
+          </li>
+          <li>
+            <strong>meow</strong> - Tells the computer to say the given
+            message. This is how we print things to the screen.
+          </li>
+          <li>
+            <strong>whisker</strong> - Uses the catputers whiskers to
+            detect something. This is how we ask the computer questions.
+          </li>
+          <li>
+            <strong>elseif</strong> - If the first whisker fails, we use
+            this to ask another question.
+          </li>
+          <li>
+            <strong>else</strong> - This is the last whisker when all the other
+            conditions fail.
+          </li>
+          <li>
+            <strong>hunt</strong> - Hunts down a condition if
+            just one whisker isn’t enough.
+          </li>
+          <li>
+            <strong>tail</strong> - Leads a variable name to it's value.
+          </li>
+          <li>
+            <strong>purr</strong> - Finishes a scratch and tells the computer
+            to give the result to the function.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Examples Section -->
+      <section id="examples">
+        <h2>Examples</h2>
+        <p>Now, let’s look at some real examples of how we use PurrScript!</p>
+
+        <h3>Example 1: Saying Hello</h3>
+        <p>
+          In this example, we’ll create a function that says "Hello World!"
+        </p>
+        <pre>
+scratch sayHello() {
+    meow("Hello World!")
+}
+
+sayHello();
+        </pre>
+        <p>
+          This function is named <code>sayHello</code>, and when we run it, it
+          will make the computer say "Hello, Kitty!"
+        </p>
+
+        <h3>Example 2: Conditional Statements</h3>
+        <p>
+          Let’s write a simple decision-making program where the computer checks
+          if it’s raining:
+        </p>
+        <pre>
+weather tail "raining"
+
+scratch checkWeather(weather) {
+    whisker(weather == "raining") {
+        meow("Better take an umbrella!")
+    } else {
+        meow("Enjoy the sunshine!")
+    }
+}
+
+checkWeather("raining");
+        </pre>
+        <p>
+          This code checks if the weather is "raining" and then tells you to
+          take an umbrella, otherwise, it tells you to enjoy the sunshine!
+        </p>
+      </section>
+
+      <!-- Variables and Types Section -->
+      <section id="variables">
+        <h2>Variables & Types</h2>
+        <p>
+          Variables are like containers where you can store information. In
+          PurrScript, we use <code>tail</code> to assign values to variables.
+        </p>
+        <h3>Example 1: Storing a Number</h3>
+        <pre>
+age tail 7
+meow(age)  /* Outputs: 7 */
+        </pre>
+        <p>
+          Here, we’ve stored the number 7 in a variable called <code>age</code>.
+          When we ask the computer to <code>meow</code> the value of
+          <code>age</code>, it will show us "7".
+        </p>
+
+        <h3>Example 2: Storing a Word</h3>
+        <pre>
+name tail "Kitty"
+meow(name)  /* Outputs: Kitty */
+        </pre>
+        <p>
+          Here, we’ve stored the word "Kitty" in a variable called
+          <code>name</code>. When we ask the computer to show us
+          <code>name</code>, it will say "Kitty".
+        </p>
+      </section>
+
+      <!-- Functions Section -->
+      <section id="functions">
+        <h2>Functions</h2>
+        <p>
+          Functions let you group code together to do something specific. You
+          can use functions to perform actions, like adding numbers or printing
+          messages.
+        </p>
+
+        <h3>Example 1: A Simple Function</h3>
+        <pre>
+scratch greet(name) {
+    meow "Hello " + name + "!"
+}
+
+greet("Kitty")
+        </pre>
+        <p>
+          This function is called <code>greet</code>. It takes one input,
+          <code>name</code>, and prints a greeting. When we call the function
+          with "Kitty", it will say "Hello Kitty!"
+        </p>
+
+        <h3>Example 2: Returning a Value</h3>
+        <pre>
+scratch addNumbers(a, b) {
+    result tail a + b
+    purr result
+}
+
+meow addNumbers(5, 3);  /* Outputs: 8 */
+        </pre>
+        <p>
+          This function adds two numbers and returns the result. When we call it
+          with 5 and 3, it will return 8.
+        </p>
+      </section>
+
+      <!-- Control Flow Section -->
+      <section id="control-flow">
+        <h2>Control Flow</h2>
+        <p>
+          Control flow lets us make decisions in our program. For example, we
+          can check if something is true, and if it is, we can do one thing.
+          Otherwise, we can do something else.
+        </p>
+
+        <h3>Example 1: Simple Decision</h3>
+        <pre>
+whisker(age >= 18) {
+    meow("You are an adult!")
+} else {
+    meow("You are a minor!")
+}
+        </pre>
+        <p>
+          This checks if the age is 18 or more. If it is, it will say "You are
+          an adult!". If not, it will say "You are not an adult yet!".
+        </p>
+      </section>
+
+      <!-- Loops Section -->
+      <section id="loops">
+        <h2>Loops</h2>
+        <p>
+          Loops let us repeat actions multiple times. For example, we can ask
+          the computer to say something several times.
+        </p>
+
+        <h3>Example 1: Repeating a Message</h3>
+        <pre>
+count tail 1;
+hunt count <= 5 {
+    meow("This is loop number " + count)
+    count tail count + 1
+}
+        </pre>
+        <p>
+          This code repeats a message 5 times. It uses the
+          <code>hunt</code> loop to keep going until the count reaches 5.
+        </p>
+      </section>
+
+      <footer>
+        <p>Made with love by PurrScript Team</p>
+      </footer>
+    </main>
+
+    <script>
+      function toggleSidebar() {
+        const sidebar = document.querySelector(".sidebar");
+        const toggle = document.querySelector(".sidebar-toggle");
+        const main = document.querySelector("main");
+
+        sidebar.classList.toggle("collapsed");
+        toggle.classList.toggle("collapsed");
+        main.classList.toggle("expanded");
+      }
+
+      // Add smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+          });
+        });
+      });
+
+      function addCopyButtons() {
+        document.querySelectorAll(".code-block, pre").forEach((block) => {
+          const button = document.createElement("button");
+          button.className = "copy-button";
+          button.textContent = "Copy";
+          button.onclick = () => {
+            navigator.clipboard.writeText(block.textContent);
+            button.textContent = "Copied!";
+            setTimeout(() => (button.textContent = "Copy"), 2000);
+          };
+          block.appendChild(button);
+        });
+      }
+
+      function handleScroll() {
+        const backToTop = document.querySelector(".back-to-top");
+        if (window.scrollY > 300) {
+          backToTop.classList.add("visible");
+        } else {
+          backToTop.classList.remove("visible");
+        }
+      }
+
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        addCopyButtons();
+        window.addEventListener("scroll", handleScroll);
+        initParticles();
+      });
+
+      // Particle animation
+      function initParticles() {
+        const canvas = document.getElementById("particles");
+        const ctx = canvas.getContext("2d");
+        let particles = [];
+
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = canvas.offsetHeight;
+        }
+
+        class Particle {
+          constructor() {
+            this.reset();
+          }
+
+          reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.vx = Math.random() * 2 - 1;
+            this.vy = Math.random() * 2 - 1;
+            this.size = Math.random() * 3 + 1;
+            this.opacity = Math.random() * 0.5 + 0.2;
+          }
+
+          update() {
+            this.x += this.vx;
+            this.y += this.vy;
+
+            if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+          }
+
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+            ctx.fill();
+          }
+        }
+
+        function createParticles() {
+          for (let i = 0; i < 50; i++) {
+            particles.push(new Particle());
+          }
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          particles.forEach((particle) => {
+            particle.update();
+            particle.draw();
+          });
+
+          requestAnimationFrame(animate);
+        }
+
+        window.addEventListener("resize", resize);
+        resize();
+        createParticles();
+        animate();
+      }
+    </script>
+  </body>
+</html>
