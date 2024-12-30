@@ -35,17 +35,30 @@
 
       .container {
         display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
         width: 80%;
-        height: 90%;
+        height: 90vh;
         justify-content: space-between;
         border-radius: 15px;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        overflow: hidden;
+        overflow: visible;
+        padding: 20px;
+        background-color: #333;
+      }
+
+      .editor-container, .output-container {
+        width: 49%;
+        height: 85%;
+        transition: height 0.3s ease;
+      }
+
+      .container.expanded .editor-container,
+      .container.expanded .output-container {
+        height: 95%;
       }
 
       .editor-container {
-        width: 50%;
-        height: 100%;
         padding: 20px;
         background-color: #333;
         border-right: 2px solid #444;
@@ -54,6 +67,7 @@
         flex-direction: column;
         justify-content: flex-start;
         position: relative;
+        margin-bottom: 20px;
       }
 
       .editor-container h1 {
@@ -99,15 +113,16 @@
       }
 
       .output-container {
-        width: 50%;
-        height: 100%;
         padding: 20px;
-        background-color: #222;
         border-radius: 0 10px 10px 0;
+        margin-bottom: 20px;
+        color: #ffcc00;
+        text-align: center;
       }
 
       #output {
         background-color: #111;
+        text-align: left;
         color: #8e8e8e;
         font-family: "Courier New", Courier, monospace;
         font-size: 14px;
@@ -118,6 +133,49 @@
         overflow-y: auto;
         height: 79%;
         padding: 5px;
+      }
+
+      .learn-purrscript-container {
+        width: 100%;
+        background-color: #222;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+        text-align: center;
+        align-self: flex-end;
+        position: relative;
+      }
+
+      .learn-purrscript {
+        font-size: 16px;
+        color: #ffcc00;
+      }
+
+      .learn-purrscript a {
+        color: #ffcc00;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .learn-purrscript a:hover {
+        text-decoration: underline;
+      }
+
+      .learn-close-btn {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #ffcc00;
+        font-size: 20px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 0 5px;
+      }
+
+      .learn-close-btn:hover {
+        color: #ff6a00;
       }
     </style>
   </head>
@@ -133,6 +191,13 @@
         <h2>Output:</h2>
         <pre id="output"></pre>
         <button class="back-btn" onclick="window.history.back();">Back</button>
+      </div>
+
+      <div class="learn-purrscript-container">
+        <p class="learn-purrscript">
+          Learn PurrScript at <a href="wiki/purrScript.html">Techpaws Wiki § PurrScript</a>
+        </p>
+        <button class="learn-close-btn" onclick="closePurrLearn()">&times;</button>
       </div>
     </div>
 
@@ -365,6 +430,14 @@
         const jsCode = PurrScriptToJs(editor.getValue());
         const outputArea = document.getElementById("output");
         outputArea.textContent = jsCode; // Display the translated JavaScript code in the output area
+      }
+
+      // Function to close the learn-purrscript section
+      function closePurrLearn() {
+        document.querySelector('.learn-purrscript-container').style.display = 'none';
+        document.querySelector('.container').classList.add('expanded');
+        // Trigger Ace editor resize
+        editor.resize();
       }
     </script>
   </body>
