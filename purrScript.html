@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PurrScript Interpreter</title>
+
+    <!-- Ace Editor CSS -->
+    <style type="text/css" media="screen">
+      #editor {
+        width: 100%;
+        height: 90%; /* Ensure the editor takes 90% of the height of the editor container */
+        border: 1px solid #444;
+        margin-bottom: 10px; /* To separate from the button */
+      }
+    </style>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(45deg, #ff6a00, #ee0979);
+        color: #f8f8f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        display: flex;
+        width: 80%;
+        height: 90%;
+        justify-content: space-between;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+      }
+
+      .editor-container {
+        width: 50%;
+        height: 100%;
+        padding: 20px;
+        background-color: #333;
+        border-right: 2px solid #444;
+        border-radius: 10px 0 0 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        position: relative;
+      }
+
+      .editor-container h1 {
+        font-size: 24px;
+        color: #ffcc00;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .run-btn {
+        width: 100%;
+        height: 10%;
+        background-color: #ffcc00;
+        color: #2d2d2d;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      .run-btn:hover {
+        background-color: #f1b700;
+      }
+
+      .output-container {
+        width: 50%;
+        height: 100%;
+        padding: 20px;
+        background-color: #222;
+        border-radius: 0 10px 10px 0;
+      }
+
+      #output {
+        background-color: #111;
+        color: #8e8e8e;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 14px;
+        white-space: pre-wrap;
+        word-wrap: normal;
+        overflow-y: auto;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="editor-container">
+        <h1>PurrScript Editor</h1>
+        <div id="editor">Write your PurrScript code here...</div>
+        <button class="run-btn" onclick="runCode()">Run Code</button>
+      </div>
+
+      <div class="output-container">
+        <h2>Output:</h2>
+        <pre id="output"></pre>
+      </div>
+    </div>
+
+    <!-- Ace Editor JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+
+    <script>
+      // Initialize Ace Editor
+      const editor = ace.edit("editor");
+      editor.setTheme("ace/theme/monokai");
+
+      // Custom PurrScript syntax checker
+      ace.define(
+        "ace/mode/PurrScript_highlight_rules",
+        [
+          "require",
+          "exports",
+          "module",
+          "ace/lib/oop",
+          "ace/mode/text_highlight_rules",
+        ],
+        function (require, exports, module) {
+          "use strict";
+
+          var oop = require("ace/lib/oop");
+          var TextHighlightRules =
+            require("ace/mode/text_highlight_rules").TextHighlightRules;
+
+          var PurrScriptHighlightRules = function () {
+            this.$rules = {
+              start: [
+                { token: "keyword", regex: "\\bscratch\\b" },
+                { token: "keyword", regex: "\\bmeow\\b" },
+                { token: "keyword", regex: "\\bwhisker\\b" },
+                { token: "keyword", regex: "\\belseif\\b" },
+                { token: "keyword", regex: "\\belse\\b" },
+                { token: "keyword", regex: "\\bhunt\\b" },
+                { token: "keyword", regex: "\\bfor\\b" },
+                { token: "keyword", regex: "\\btail\\b" },
+                { token: "keyword", regex: "\\bpurr\\b" },
+                { token: "paren.lparen", regex: "[\\[\\(\\{]" },
+                { token: "paren.rparen", regex: "[\\]\\)\\}]" },
+                { token: "text", regex: "\\s+" },
+              ],
+            };
+          };
+
+          oop.inherits(PurrScriptHighlightRules, TextHighlightRules);
+          exports.PurrScriptHighlightRules = PurrScriptHighlightRules;
+        }
+      );
+
+      ace.define(
+        "ace/mode/PurrScript",
+        [
+          "require",
+          "exports",
+          "module",
+          "ace/lib/oop",
+          "ace/mode/text",
+          "ace/mode/PurrScript_highlight_rules",
+        ],
+        function (require, exports, module) {
+          "use strict";
+
+          var oop = require("ace/lib/oop");
+          var TextMode = require("ace/mode/text").Mode;
+          var PurrScriptHighlightRules =
+            require("ace/mode/PurrScript_highlight_rules").PurrScriptHighlightRules;
+
+          var Mode = function () {
+            this.HighlightRules = PurrScriptHighlightRules;
+          };
+          oop.inherits(Mode, TextMode);
+
+          (function () {
+            this.lineCommentStart = "//";
+            this.$id = "ace/mode/PurrScript";
+          }).call(Mode.prototype);
+
+          exports.Mode = Mode;
+        }
+      );
+
+      editor.session.setMode("ace/mode/PurrScript");
+
+      // Function to check PurrScript syntax
+      function checkPurrScriptSyntax(PurrScriptCode) {
+        const syntaxErrors = [];
+        const lines = PurrScriptCode.split("\n");
+
+        lines.forEach((line, index) => {
+          if (line.includes("scratch") && !line.includes("(")) {
+            syntaxErrors.push(
+              `Syntax error on line ${index + 1}: Missing '(' in function declaration.`
+            );
+          }
+          if (line.includes("whisker") && !line.includes("{")) {
+            syntaxErrors.push(
+              `Syntax error on line ${index + 1}: Missing '{' in if statement.`
+            );
+          }
+          // Add more syntax checks as needed
+        });
+
+        return syntaxErrors;
+      }
+
+      // Function to fix PurrScript syntax errors
+      function fixPurrScriptSyntax(PurrScriptCode) {
+        let fixedCode = PurrScriptCode;
+        const lines = fixedCode.split("\n");
+
+        lines.forEach((line, index) => {
+          if (line.includes("scratch") && !line.includes("(")) {
+            lines[index] = line.replace("scratch", "scratch()");
+          }
+          if (line.includes("whisker") && !line.includes("{")) {
+            lines[index] = line.replace("whisker", "whisker {");
+          }
+          // Add more fixes as needed
+        });
+
+        return lines.join("\n");
+      }
+
+      // Function to translate PurrScript code to JavaScript
+      function PurrScriptToJs(PurrScriptCode) {
+        let jsCode = PurrScriptCode;
+
+        // Replace PurrScript keywords with JavaScript equivalents
+        jsCode = jsCode.replace(/\bscratch\b/g, "function"); // 'scratch' becomes 'function'
+        jsCode = jsCode.replace(/\bmeow\b/g, "console.log"); // 'meow' becomes 'console.log'
+        jsCode = jsCode.replace(/\bwhisker\b/g, "if"); // 'whisker' becomes 'if'
+        jsCode = jsCode.replace(/\belseif\b/g, "else if"); // 'elseif' becomes 'else if'
+        jsCode = jsCode.replace(/\belse\b/g, "else"); // 'else' becomes 'else'
+        jsCode = jsCode.replace(/\bhunt\b/g, "while"); // 'hunt' becomes 'while'
+        jsCode = jsCode.replace(/\bfor\b/g, "for"); // 'for' becomes 'for'
+        jsCode = jsCode.replace(/\btail\b/g, "="); // 'tail' becomes '=' for assignment
+        jsCode = jsCode.replace(/\bpurr\b/g, "return"); // 'purr' becomes 'return'
+
+        // Ensure function declaration syntax is correct
+        jsCode = jsCode.replace(
+          /scratch\s+(\w+)\((.*?)\)\s*{/g,
+          "function $1($2) {"
+        ); // Function syntax
+
+        // Fix conditionals and loops
+        jsCode = jsCode.replace(/whisker\s(.*)\s\{/g, "if ($1) {"); // Fix 'if' statement
+        jsCode = jsCode.replace(/elseif\s(.*)\s\{/g, "else if ($1) {"); // Fix 'else if' statement
+        jsCode = jsCode.replace(/hunt\s(.*)\s\{/g, "while ($1) {"); // Fix 'while' loop
+
+        // Add variable declarations for first-time assignments
+        let declaredVariables = new Set();
+        jsCode = jsCode.replace(/(\b\w+\b)\s*=\s*/g, (match, variableName) => {
+          // Check if the variable has been declared before
+          if (!declaredVariables.has(variableName)) {
+            declaredVariables.add(variableName);
+            return `let ${variableName} = `; // Declare the variable
+          } else {
+            return `${variableName} = `; // No need to declare again
+          }
+        });
+
+        // Fix conditionals and loops syntax
+        jsCode = jsCode.replace(/if\s+(\w+)\s*{/g, "if ($1) {"); // Fix 'if' statement
+        jsCode = jsCode.replace(/else if\s+(\w+)\s*{/g, "else if ($1) {"); // Fix 'else if' statement
+        jsCode = jsCode.replace(/while\s+(\w+)\s*{/g, "while ($1) {"); // Fix 'while' loop
+
+        // Add semicolons after statements
+        jsCode = jsCode.replace(/(\breturn\b.*?)(\n|$)/g, "$1;"); // Add semicolon after return statements
+        jsCode = jsCode.replace(/(\bconsole\.log\b.*?)(\n|$)/g, "$1;"); // Add semicolon after console.log statements
+        jsCode = jsCode.replace(/(\bif\b.*?)(\n|$)/g, "$1;"); // Add semicolon after if statements
+        jsCode = jsCode.replace(/(\belse if\b.*?)(\n|$)/g, "$1;"); // Add semicolon after else if statements
+        jsCode = jsCode.replace(/(\belse\b.*?)(\n|$)/g, "$1;"); // Add semicolon after else statements
+        jsCode = jsCode.replace(/(\bwhile\b.*?)(\n|$)/g, "$1;"); // Add semicolon after while statements
+        jsCode = jsCode.replace(/(\bfor\b.*?)(\n|$)/g, "$1;"); // Add semicolon after for statements
+        jsCode = jsCode.replace(/(\bfunction\b.*?)(\n|$)/g, "$1;"); // Add semicolon after function declarations
+
+        // Fix variable initialization in loops
+        jsCode = jsCode.replace(/while\s+\((\w+)\s*<\s*(\d+)\)\s*{/g, "let $1 = 0; while ($1 < $2) {");
+
+        return jsCode;
+      }
+
+      // Function to run the translated PurrScript code
+      function runCode() {
+        let code = editor.getValue(); // Get code from the editor
+        const outputArea = document.getElementById("output"); // Output area to display result
+
+        const syntaxErrors = checkPurrScriptSyntax(code);
+        if (syntaxErrors.length > 0) {
+          const fixErrors = confirm(
+            "Syntax errors detected. Do you want to attempt to fix them?"
+          );
+          if (fixErrors) {
+            code = fixPurrScriptSyntax(code);
+            editor.setValue(code, -1); // Update editor with fixed code
+          } else {
+            outputArea.textContent = syntaxErrors.join("\n");
+            return;
+          }
+        }
+
+        try {
+          const jsCode = PurrScriptToJs(code); // Translate to JavaScript
+          console.log("Translated JavaScript Code:\n", jsCode); // Log the translated JavaScript code for debugging
+          outputArea.textContent = ""; // Clear previous output
+
+          // Capture console.log() output
+          const originalConsoleLog = console.log;
+          let output = "";
+          console.log = function (message) {
+            output += message + "\n"; // Capture output message
+            originalConsoleLog(message); // Call original console.log
+          };
+
+          // Use eval to execute the translated JavaScript code
+          eval(jsCode); // Execute the translated code
+
+          // Output the captured output
+          outputArea.textContent = output;
+        } catch (e) {
+          outputArea.textContent = `Error: ${e.message}`; // Catch and display any errors
+        }
+      }
+
+      // Function to display the translated JavaScript code
+      function displayJS() {
+        const jsCode = PurrScriptToJs(editor.getValue());
+        const outputArea = document.getElementById("output");
+        outputArea.textContent = jsCode; // Display the translated JavaScript code in the output area
+      }
+    </script>
+  </body>
+</html>
