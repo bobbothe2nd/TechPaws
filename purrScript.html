@@ -47,7 +47,8 @@
         background-color: #333;
       }
 
-      .editor-container, .output-container {
+      .editor-container,
+      .output-container {
         width: 49%;
         height: 85%;
         transition: height 0.3s ease;
@@ -195,9 +196,14 @@
 
       <div class="learn-purrscript-container">
         <p class="learn-purrscript">
-          Learn PurrScript at <a href="wiki/purrScript.html" target="_blank">Techpaws Wiki § PurrScript</a>
+          Learn PurrScript at
+          <a href="wiki/purrScript.html" target="_blank"
+            >Techpaws Wiki § PurrScript</a
+          >
         </p>
-        <button class="learn-close-btn" onclick="closePurrLearn()">&times;</button>
+        <button class="learn-close-btn" onclick="closePurrLearn()">
+          &times;
+        </button>
       </div>
     </div>
 
@@ -292,12 +298,16 @@
         lines.forEach((line, index) => {
           if (line.includes("scratch") && !line.includes("(")) {
             syntaxErrors.push(
-              `Syntax error on line ${index + 1}: Missing '(' in function declaration.`
+              `PurrScript error on line ${
+                index + 1
+              }: Missing '(' in scratch declaration.`
             );
           }
           if (line.includes("whisker") && !line.includes("{")) {
             syntaxErrors.push(
-              `Syntax error on line ${index + 1}: Missing '{' in if statement.`
+              `PurrScript error on line ${
+                index + 1
+              }: Missing '{' in whisker statement.`
             );
           }
           // Add more syntax checks as needed
@@ -356,9 +366,9 @@
           // Check if the variable has been declared before
           if (!declaredVariables.has(variableName)) {
             declaredVariables.add(variableName);
-            return `let ${variableName} = `; // Declare the variable
+            return `let ${variableName}=`; // Declare the variable without space
           } else {
-            return `${variableName} = `; // No need to declare again
+            return `${variableName}=`; // No need to declare again, without space
           }
         });
 
@@ -378,7 +388,10 @@
         jsCode = jsCode.replace(/(\bfunction\b.*?)(\n|$)/g, "$1;"); // Add semicolon after function declarations
 
         // Fix variable initialization in loops
-        jsCode = jsCode.replace(/while\s+\((\w+)\s*<\s*(\d+)\)\s*{/g, "let $1 = 0; while ($1 < $2) {");
+        jsCode = jsCode.replace(
+          /while\s+\((\w+)\s*<\s*(\d+)\)\s*{/g,
+          "let $1=0; while ($1 < $2) {"
+        );
 
         return jsCode;
       }
@@ -421,7 +434,11 @@
           // Output the captured output
           outputArea.textContent = output;
         } catch (e) {
-          outputArea.textContent = `Error: ${e.message}`; // Catch and display any errors
+          const errorMessage = e.message.replace(
+            /Unexpected token '(\w+)'/,
+            "Unexpected token '$1'"
+          );
+          outputArea.textContent = `PurrScript error: ${errorMessage}`; // Catch and display any errors
         }
       }
 
@@ -434,8 +451,9 @@
 
       // Function to close the learn-purrscript section
       function closePurrLearn() {
-        document.querySelector('.learn-purrscript-container').style.display = 'none';
-        document.querySelector('.container').classList.add('expanded');
+        document.querySelector(".learn-purrscript-container").style.display =
+          "none";
+        document.querySelector(".container").classList.add("expanded");
         // Trigger Ace editor resize
         editor.resize();
       }
