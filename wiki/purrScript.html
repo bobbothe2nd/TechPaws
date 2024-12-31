@@ -266,7 +266,7 @@ whisker(age >= 18) {
         <h3>Example 1: Repeating a Message</h3>
         <pre>
 count tail 1;
-hunt count <= 5 {
+hunt(count <= 5) {
     meow("This is loop number " + count)
     count tail count + 1
 }
