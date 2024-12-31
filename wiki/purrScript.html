@@ -146,8 +146,6 @@ sayHello();
           if it’s raining:
         </p>
         <pre>
-weather tail "raining"
-
 scratch checkWeather(weather) {
     whisker(weather == "raining") {
         meow("Better take an umbrella!")
@@ -206,7 +204,7 @@ meow(name)  /* Outputs: Kitty */
         <h3>Example 1: A Simple Function</h3>
         <pre>
 scratch greet(name) {
-    meow "Hello " + name + "!"
+    meow("Hello " + name + "!")
 }
 
 greet("Kitty")
@@ -224,7 +222,7 @@ scratch addNumbers(a, b) {
     purr result
 }
 
-meow addNumbers(5, 3);  /* Outputs: 8 */
+meow(addNumbers(5, 3))  /* Outputs: 8 */
         </pre>
         <p>
           This function adds two numbers and returns the result. When we call it
@@ -243,6 +241,8 @@ meow addNumbers(5, 3);  /* Outputs: 8 */
 
         <h3>Example 1: Simple Decision</h3>
         <pre>
+age tail 15
+          
 whisker(age >= 18) {
     meow("You are an adult!")
 } else {
